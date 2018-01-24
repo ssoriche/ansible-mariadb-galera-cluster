@@ -69,7 +69,10 @@
   when: >
         (ansible_distribution == "Debian" or
         (ansible_distribution == "Ubuntu" and
-        ansible_distribution_version <= '14.04')) and
+        ansible_distribution_version <= '14.04') or
+        (ansible_distribution == "CentOS" and
+        ansible_distribution_version <= '7.00')
+        ) and
         not galera_cluster_configured.stat.exists and
         inventory_hostname == galera_mysql_master_node
 
@@ -81,6 +84,8 @@
         inventory_hostname == galera_mysql_master_node and
         ((ansible_distribution == "Ubuntu" and
         ansible_distribution_version >= '16.04') or
+        (ansible_distribution == "CentOS" and
+        ansible_distribution_version >= '7.00') or
         ansible_distribution == "Debian")
 
 - name: setup_cluster | joining galera cluster
